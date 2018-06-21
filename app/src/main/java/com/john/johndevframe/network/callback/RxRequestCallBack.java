@@ -103,7 +103,7 @@ public abstract class RxRequestCallBack<T> extends Subscriber<HttpResult<T>> imp
         }
     }
 
-    private void onFailed(HttpResult<T> tHttpResult) {
+    protected void onFailed(HttpResult<T> tHttpResult) {
     }
 
 
