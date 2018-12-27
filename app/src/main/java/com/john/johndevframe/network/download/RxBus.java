@@ -1,42 +1,41 @@
 package com.john.johndevframe.network.download;
 
+import android.util.Log;
 import java.util.HashMap;
+import io.reactivex.Flowable;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.processors.FlowableProcessor;
+import io.reactivex.processors.PublishProcessor;
 
-import rx.Observable;
-import rx.Subscription;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
-import rx.schedulers.Schedulers;
-import rx.subjects.PublishSubject;
-import rx.subjects.SerializedSubject;
-import rx.subscriptions.CompositeSubscription;
 
 /**
  * Author: John
  * E-mail: 634930172@qq.com
  * Date: 2018/1/15 0015 16:09
  * <p/>
- * Description:
+ * Description:基于RxJava2的RxBus,支持背压
  */
 
 public class RxBus {
 
+    private static final String TAG = "RxBus";
     private static volatile RxBus mInstance;
-    private SerializedSubject<Object, Object> mSubject;
-    private HashMap<String, CompositeSubscription> mSubscriptionMap;
+    private FlowableProcessor<Object> mBus;
+    private HashMap<String, CompositeDisposable> mSubscriptionMap;
 
     /**
-     *  PublishSubject只会把在订阅发生的时间点之后来自原始Observable的数据发射给观察者
-     *  Subject同时充当了Observer和Observable的角色，Subject是非线程安全的，要避免该问题，
-     *  需要将 Subject转换为一个 SerializedSubject ，上述RxBus类中把线程非安全的PublishSubject包装成线程安全的Subject。
+     * PublishSubject只会把在订阅发生的时间点之后来自原始Observable的数据发射给观察者
+     * Subject同时充当了Observer和Observable的角色，Subject是非线程安全的，要避免该问题，
+     * 需要将 Subject转换为一个 SerializedSubject ，上述RxBus类中把线程非安全的PublishSubject包装成线程安全的Subject。
      */
     private RxBus() {
-        mSubject = new SerializedSubject<>(PublishSubject.create());
+        mBus = PublishProcessor.create().toSerialized();
     }
 
     /**
      * 单例 双重锁
-     * @return
      */
     public static RxBus getInstance() {
         if (mInstance == null) {
@@ -51,60 +50,59 @@ public class RxBus {
 
     /**
      * 发送一个新的事件
-     * @param o
      */
     public void post(Object o) {
-        mSubject.onNext(o);
+        mBus.onNext(o);
+    }
+
+    public Flowable<Object> toFlowable() {
+        return mBus;
     }
 
     /**
      * 根据传递的 eventType 类型返回特定类型(eventType)的 被观察者
-     * @param type
-     * @param <T>
-     * @return
      */
-    public <T> Observable<T> tObservable(final Class<T> type) {
+    public  <T> Flowable<T> toFlowable(Class<T> type) {
         //ofType操作符只发射指定类型的数据，其内部就是filter+cast
-        return mSubject.ofType(type);
+        return mBus.ofType(type);
     }
 
-    public <T> Subscription doSubscribe(Class<T> type, Action1<T> next, Action1<Throwable> error) {
-        return tObservable(type)
+    public <T> Disposable subscribe(Class<T> type, Consumer<T> next,Consumer<Throwable> err) {
+        return toFlowable(type)
                 .onBackpressureBuffer()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(next, error);
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(next, err);
     }
 
-    public void addSubscription(Object o, Subscription subscription) {
-
+    public void addCompositeDisposable(Object object, Disposable disposable) {
         if (mSubscriptionMap == null) {
             mSubscriptionMap = new HashMap<>();
         }
-        String key = o.getClass().getName();
+        String key = object.getClass().getName();
         if (mSubscriptionMap.get(key) != null) {
-            mSubscriptionMap.get(key).add(subscription);
+            mSubscriptionMap.get(key).add(disposable);
         } else {
-            CompositeSubscription compositeSubscription = new CompositeSubscription();
-            compositeSubscription.add(subscription);
-            mSubscriptionMap.put(key, compositeSubscription);
+            CompositeDisposable compositeDisposable = new CompositeDisposable();
+            compositeDisposable.add(disposable);
+            mSubscriptionMap.put(key, compositeDisposable);
             //  Log.e("air", "addSubscription:订阅成功 " );
         }
     }
 
-    public void unSubscribe(Object o) {
+    public void unSubscribe(Object object) {
         if (mSubscriptionMap == null) {
             return;
         }
-        String key = o.getClass().getName();
+        String key = object.getClass().getName();
         if (!mSubscriptionMap.containsKey(key)) {
             return;
         }
-        if (mSubscriptionMap.get(key) != null) {
-            mSubscriptionMap.get(key).unsubscribe();
+        if (mSubscriptionMap.get(key) != null && !mSubscriptionMap.get(key).isDisposed()) {
+            mSubscriptionMap.get(key).dispose();
+            Log.d(TAG, "unSubscribe event success");
         }
         mSubscriptionMap.remove(key);
-        //Log.e("air", "unSubscribe: 取消订阅" );
     }
 }
 

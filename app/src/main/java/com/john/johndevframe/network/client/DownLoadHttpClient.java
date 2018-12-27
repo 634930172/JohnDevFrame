@@ -11,7 +11,8 @@ import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+
 
 /**
  * Author: ${John}
@@ -44,7 +45,7 @@ public class DownLoadHttpClient {
         retrofit = new Retrofit.Builder()
                 .client(builder.build())
                 .addConverterFactory(HttpCovertFactory.create())
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .baseUrl(BaseConfig.BASE_URL)
                 .build();
         Log.e("TAG", "DownLoadHttpClient: >>>>>>>>>>>>>>>>>>>>>>>>");

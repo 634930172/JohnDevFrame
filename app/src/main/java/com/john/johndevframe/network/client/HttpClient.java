@@ -8,10 +8,11 @@ import com.john.johndevframe.utils.ContextUtil;
 import java.io.File;
 import java.util.concurrent.TimeUnit;
 
+
 import okhttp3.Cache;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 /**
  * Author: ${John}
@@ -48,7 +49,7 @@ public class HttpClient {
         retrofit = new Retrofit.Builder()
                 .client(builder.build())
                 .addConverterFactory(HttpCovertFactory.create())
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .baseUrl(BaseConfig.BASE_URL)
                 .build();
     }

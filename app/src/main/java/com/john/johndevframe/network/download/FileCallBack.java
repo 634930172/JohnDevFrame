@@ -9,8 +9,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import okhttp3.ResponseBody;
-import rx.Subscription;
-import rx.functions.Action1;
+
 
 /**
  * Author: John
@@ -21,8 +20,7 @@ import rx.functions.Action1;
  */
 
 public abstract class FileCallBack<T> {
-
-
+    private static final String TAG="FileCallBack";
     private String destFileDir;
     private String destFileName;
 
@@ -30,7 +28,6 @@ public abstract class FileCallBack<T> {
     public FileCallBack(String destFileDir, String destFileName) {
         this.destFileDir = destFileDir;
         this.destFileName = destFileName;
-        subscribeLoadProgress();
     }
 
     public abstract void onSuccess(T t);
@@ -60,7 +57,6 @@ public abstract class FileCallBack<T> {
                 fos.write(buf, 0, len);
             }
             fos.flush();
-            unsubscribe();
             //onCompleted();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -77,32 +73,6 @@ public abstract class FileCallBack<T> {
             }
         }
     }
-
-    /**
-     * 订阅加载的进度条
-     */
-    public void subscribeLoadProgress() {
-        Subscription subscription = RxBus.getInstance().doSubscribe(FileLoadEvent.class, new Action1<FileLoadEvent>() {
-            @Override
-            public void call(FileLoadEvent fileLoadEvent) {
-                progress(fileLoadEvent.getBytesLoaded());
-            }
-        }, new Action1<Throwable>() {
-            @Override
-            public void call(Throwable throwable) {
-                //TODO 对异常的处理
-            }
-        });
-        RxBus.getInstance().addSubscription(this, subscription);
-    }
-
-    /**
-     * 取消订阅，防止内存泄漏
-     */
-    public void unsubscribe() {
-        RxBus.getInstance().unSubscribe(this);
-    }
-
 
 
 

@@ -15,7 +15,8 @@ import java.net.UnknownHostException;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import rx.Subscriber;
+import io.reactivex.observers.DisposableObserver;
+
 
 /**
  * Author: ${John}
@@ -25,7 +26,7 @@ import rx.Subscriber;
  * Description:
  */
 
-public abstract class RxRequestCallBack<T> extends Subscriber<HttpResult<T>> implements DialogInterface.OnCancelListener {
+public abstract class RxRequestCallBack<T> extends DisposableObserver<HttpResult<T>> implements DialogInterface.OnCancelListener {
 
     private LoadingDialog dialog;
     private static final String TAG="RxRequestCallBack";
@@ -69,7 +70,7 @@ public abstract class RxRequestCallBack<T> extends Subscriber<HttpResult<T>> imp
     }
 
     @Override
-    public void onCompleted() {
+    public void onComplete() {
         dismissDialog();
         Log.e(TAG, "onCompleted: " );
     }
@@ -127,8 +128,8 @@ public abstract class RxRequestCallBack<T> extends Subscriber<HttpResult<T>> imp
      */
     @Override
     public void onCancel(DialogInterface dialogInterface) {
-        if (!this.isUnsubscribed()) {
-            this.unsubscribe();
+        if (!this.isDisposed()) {
+            this.dispose();
         }
     }
 

@@ -8,8 +8,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-
-import com.trello.rxlifecycle.components.support.RxFragment;
+import com.john.johndevframe.LeakApplication;
+import com.squareup.leakcanary.RefWatcher;
+import com.trello.rxlifecycle2.components.support.RxFragment;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -83,7 +84,9 @@ public abstract class BaseFrag<V,P extends BasePresenter<V>> extends RxFragment 
             unbinder.unbind();
         }
         super.onDestroy();
-
+        //监控Fragment对象
+        RefWatcher refWatcher = LeakApplication.getRefWatcher();
+        refWatcher.watch(this);
     }
 
 }

@@ -4,7 +4,11 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.view.View;
-import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
+
+
+import com.john.johndevframe.LeakApplication;
+import com.squareup.leakcanary.RefWatcher;
+import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 
 import butterknife.ButterKnife;
 
@@ -16,7 +20,7 @@ import butterknife.ButterKnife;
  * Description: MVP BaseAct
  */
 
-public abstract class BaseAct<V,P extends BasePresenter<V>> extends RxAppCompatActivity  {
+public abstract class BaseAct<V,P extends BasePresenter<V>> extends RxAppCompatActivity {
     public Activity mActivity;
     public P mPresenter;
 
@@ -77,7 +81,9 @@ public abstract class BaseAct<V,P extends BasePresenter<V>> extends RxAppCompatA
             mPresenter.detachView();
         }
         super.onDestroy();
-
+        //监控Activity类的对象
+        RefWatcher refWatcher = LeakApplication.getRefWatcher();
+        refWatcher.watch(this);
     }
 
 

@@ -2,6 +2,7 @@ package com.john.johndevframe.network.download;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import java.io.IOException;
 
@@ -33,7 +34,7 @@ public class ProgressResponseBody extends ResponseBody {
     @Nullable
     @Override
     public MediaType contentType() {
-        return  responseBody.contentType();
+        return responseBody.contentType();
     }
 
     @Override
@@ -54,12 +55,14 @@ public class ProgressResponseBody extends ResponseBody {
     private Source source(Source source) {
         return new ForwardingSource(source) {
             long bytesReaded = 0;
+
             @Override
             public long read(@NonNull Buffer sink, long byteCount) throws IOException {
                 long bytesRead = super.read(sink, byteCount);
                 bytesReaded += bytesRead == -1 ? 0 : bytesRead;
                 //实时发送当前已读取的字节和总字节
                 RxBus.getInstance().post(FileLoadEvent.getInstance().setProgress(bytesReaded));
+                Log.e("ProgressResponseBody", "read:---- "+FileLoadEvent.getInstance().getBytesLoaded() );
                 return bytesRead;
             }
         };
