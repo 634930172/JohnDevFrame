@@ -20,7 +20,7 @@ public class LeakApplication extends Application {
     public void onCreate() {
         super.onCreate();
         mRefWatcher = setupLeakCanary();
-        //改变了222222222233333333333333
+        //改变了2222222222333333333333334444444444
     }
 
     private RefWatcher setupLeakCanary() {
