@@ -54,7 +54,7 @@ public abstract class RxRequestCallBack<T> extends DisposableObserver<HttpResult
     /**
      * 请求有进度框
      */
-    public RxRequestCallBack(Context context) {
+    protected RxRequestCallBack(Context context) {
         super();
         dialog = new LoadingDialog(context);
         dialog.setOnCancelListener(this);
