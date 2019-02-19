@@ -13,7 +13,7 @@ import java.lang.ref.WeakReference;
 
 public abstract class BasePresenter<V> implements Presenter<V> {
 
-    protected WeakReference<V> mMvpView;
+    private WeakReference<V> mMvpView;
 
     @Override
     public void attachView(V mvpView) {
