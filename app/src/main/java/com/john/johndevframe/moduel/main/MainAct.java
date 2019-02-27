@@ -1,5 +1,7 @@
 package com.john.johndevframe.moduel.main;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -17,7 +19,10 @@ import com.john.johndevframe.moduel.main.view.MainView;
 import com.john.johndevframe.network.callback.RxRequestCallBack;
 import com.john.johndevframe.network.client.HttpClient;
 import com.john.johndevframe.network.entity.HttpResult;
+import com.john.johndevframe.network.networkutils.UploadUtil;
+import com.john.johndevframe.utils.BitmapUtil;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -96,10 +101,51 @@ public class MainAct extends BaseAct<MainView, MainPresenter> implements MainVie
                 mPresenter.SimplePost();
                 break;
             case R.id.bt3://单图上传
-                mPresenter.fileUpload();
+//                mPresenter.fileUpload();
+//                Bitmap bitmap = BitmapFactory.decodeResource(mActivity.getResources(), R.drawable.ic_launcher);
+//                if(bitmap==null){
+//                    Log.e("TAG", "bitmap==null");
+//                    return;
+//                }
+//                byte[] bytes = BitmapUtil.bitmapToBytes(bitmap);//拿到数组
+                File  file=new File("/sdcard/Android/data/com.john.johndevframe/files/app.apk");
+
+                UploadUtil.Builder builder = new UploadUtil.Builder().
+                        addFile("file1", file);//文件上传工具类
+
+                HttpClient.getService(AppService.class).uploadImg(builder.build()).subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new RxRequestCallBack<String>() {
+                            @Override
+                            public void onSuccess(HttpResult<String> httpResult) {
+                                Log.e("TAG", "onSuccess: " + httpResult.getData());
+                                tv.setText(httpResult.getData());
+                            }
+                        });
+
                 break;
             case R.id.bt4://多图上传
-                mPresenter.fileUploads();
+//                mPresenter.fileUploads();
+                File  file2=new File("/sdcard/Android/data/com.john.johndevframe/files/ic_launcher.jpg");
+                File  file3=new File("/sdcard/Android/data/com.john.johndevframe/files/ic_launcher.png");
+                File  file4=new File("/sdcard/Android/data/com.john.johndevframe/files/新合同2.png");
+
+                UploadUtil.Builder manyBuilder = new UploadUtil.Builder();
+                manyBuilder.addFile("file", file2);//文件上传工具类
+                manyBuilder.addFile("file", file3);//文件上传工具类
+                manyBuilder.addFile("file", file4);//文件上传工具类
+
+                HttpClient.getService(AppService.class).uploadImgs(manyBuilder.build()).subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new RxRequestCallBack<String>() {
+                            @Override
+                            public void onSuccess(HttpResult<String> httpResult) {
+                                Log.e("TAG", "onSuccess: " + httpResult.getData());
+                                tv.setText(httpResult.getData());
+                            }
+                        });
+
+
                 break;
             case R.id.bt5://文件带进度下载
                 mPresenter.fileDownLoad();

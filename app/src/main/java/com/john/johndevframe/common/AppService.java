@@ -94,4 +94,17 @@ public interface AppService {
     Observable<HttpResult<JsonArray>> queryPageArea(@Query("page") int page,@Query("size") int size);
 
 
+    //单图上传
+    @Multipart
+    @POST("http://10.10.67.78:8086/api/testUploadFile")
+    Observable<HttpResult<String>> uploadImg(@PartMap Map<String, RequestBody> map);
+
+    //多图上传
+    @Multipart
+    @POST("http://10.10.67.78:8086/api/testUploadFiles")
+    Observable<HttpResult<String>> uploadImgs(@PartMap Map<String, RequestBody> map);
+
+
+
+
 }
