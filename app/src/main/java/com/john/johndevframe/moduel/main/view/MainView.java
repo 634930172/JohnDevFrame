@@ -1,5 +1,6 @@
 package com.john.johndevframe.moduel.main.view;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 /**
@@ -38,5 +39,5 @@ public interface MainView {
     /**
      * 无网络取缓存回调
      */
-    void noNetworkCacheCallback(String str);
+    void noNetworkCacheCallback(JsonArray str);
 }

@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.john.johndevframe.R;
 import com.john.johndevframe.base.BaseAct;
@@ -32,7 +33,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.ResponseBody;
-
 
 
 /**
@@ -82,9 +82,9 @@ public class MainModelImp extends BaseModule implements MainModel {
      * post单图上传
      */
     @Override
-    public void fileUpload( final LoadingCallBack callBack) {
+    public void fileUpload(final LoadingCallBack callBack) {
         Bitmap bitmap = BitmapFactory.decodeResource(mActivity.getResources(), R.drawable.ic_launcher);
-        if(bitmap==null){
+        if (bitmap == null) {
             Log.e("TAG", "bitmap==null");
             return;
         }
@@ -103,9 +103,9 @@ public class MainModelImp extends BaseModule implements MainModel {
      * post多图上传
      */
     @Override
-    public void fileUploads( final LoadingCallBack callBack) {
+    public void fileUploads(final LoadingCallBack callBack) {
         Bitmap bitmap = BitmapFactory.decodeResource(mActivity.getResources(), R.drawable.ic_launcher);
-        if(bitmap==null){
+        if (bitmap == null) {
             Log.e("TAG", "bitmap==null");
             return;
         }
@@ -128,9 +128,9 @@ public class MainModelImp extends BaseModule implements MainModel {
      */
     @Override
     public void downLoadFile(final LoadingCallBack callBack) {
-        String fileName = "app.apk";
+        String fileName = "app.png";
         File externalFilesDir = ContextUtil.getContext().getExternalFilesDir(null);//外部存储的私有目录，应用删除后此文件也会被删除
-        if(externalFilesDir==null){
+        if (externalFilesDir == null) {
             return;
         }
         final FileCallBack<ResponseBody> downLoadCallback = new FileCallBack<ResponseBody>(externalFilesDir.toString(), fileName) {
@@ -169,16 +169,17 @@ public class MainModelImp extends BaseModule implements MainModel {
                 e.printStackTrace();
             }
         };
-        //重写了ResponseBody的HttpClient
 
-        String URL = "http://download.fir.im/v2/app/install/5818acbcca87a836f50014af?download_token=a01301d7f6f8f4957643c3fcfe5ba6ff";
-//        String URL="http://httpbin.org/get?username=cicinnus&age=22";
-        DownLoadHttpClient.getService(AppService.class).download(URL)
+        //重写了ResponseBody的HttpClient
+        //        String URL = "http://download.fir.im/v2/app/install/5818acbcca87a836f50014af?download_token=a01301d7f6f8f4957643c3fcfe5ba6ff";
+        //        String URL="http://httpbin.org/get?username=cicinnus&age=22";
+        String URL2 = "http://10.10.67.78:8086/api/testDownload";
+        DownLoadHttpClient.getService(AppService.class).download(URL2)
                 .subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
                 .observeOn(Schedulers.io()) //指定线程保存文件
                 .doOnNext(new Consumer<ResponseBody>() {
                     @Override
-                    public void accept(ResponseBody responseBody){
+                    public void accept(ResponseBody responseBody) {
                         downLoadCallback.saveFile(responseBody);
                     }
                 })
@@ -193,9 +194,9 @@ public class MainModelImp extends BaseModule implements MainModel {
      */
     @Override
     public void getSimpleCacheData(final LoadingCallBack callBack) {
-        addActSubscribe(HttpClient.getService(AppService.class).simpleGetCache(), new RxRequestCallBack<String>() {
+        addActSubscribe(HttpClient.getService(AppService.class).getListAreaCache(), new RxRequestCallBack<JsonArray>() {
             @Override
-            public void onSuccess(HttpResult<String> httpResult) {
+            public void onSuccess(HttpResult<JsonArray> httpResult) {
                 callBack.simpleCacheDataCompleted(httpResult.getData());
             }
         });

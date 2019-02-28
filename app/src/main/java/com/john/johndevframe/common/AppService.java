@@ -54,17 +54,12 @@ public interface AppService {
     @POST("https://www.mrallen.cn/api/allen_restful/upload/testMuchUploadImg.php")
     Observable<HttpResult<JsonObject>> uploadPics(@PartMap Map<String, RequestBody> map);
 
-    //文件下载
-    @Streaming
-    @GET
-    Observable<ResponseBody> download(@Url String url);
-
     //无网络取缓存
     @Headers(AcheInterceptor.CACHE)
     @GET("https://www.mrallen.cn/test.php")
     Observable<HttpResult<String>> simpleGetCache();
 
-
+    //---------------------------以上Api过期-------------------------------------
     //--------------------------新增服务端项目------------------------------------
 
     //增加区域信息
@@ -93,7 +88,6 @@ public interface AppService {
     @GET("http://10.10.67.78:8086/api/superadmin/addpagearea")
     Observable<HttpResult<JsonArray>> queryPageArea(@Query("page") int page,@Query("size") int size);
 
-
     //单图上传
     @Multipart
     @POST("http://10.10.67.78:8086/api/testUploadFile")
@@ -104,7 +98,14 @@ public interface AppService {
     @POST("http://10.10.67.78:8086/api/testUploadFiles")
     Observable<HttpResult<String>> uploadImgs(@PartMap Map<String, RequestBody> map);
 
+    //文件下载
+    @Streaming
+    @GET
+    Observable<ResponseBody> download(@Url String url);
 
-
+    //无网络取缓存
+    @Headers(AcheInterceptor.CACHE)
+    @GET("http://10.10.67.78:8086/api/superadmin/listarea")
+    Observable<HttpResult<JsonArray>> getListAreaCache();
 
 }

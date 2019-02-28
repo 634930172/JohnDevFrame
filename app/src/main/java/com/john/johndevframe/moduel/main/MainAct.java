@@ -134,7 +134,6 @@ public class MainAct extends BaseAct<MainView, MainPresenter> implements MainVie
                 manyBuilder.addFile("file", file2);//文件上传工具类
                 manyBuilder.addFile("file", file3);//文件上传工具类
                 manyBuilder.addFile("file", file4);//文件上传工具类
-
                 HttpClient.getService(AppService.class).uploadImgs(manyBuilder.build()).subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(new RxRequestCallBack<String>() {
@@ -144,13 +143,11 @@ public class MainAct extends BaseAct<MainView, MainPresenter> implements MainVie
                                 tv.setText(httpResult.getData());
                             }
                         });
-
-
                 break;
-            case R.id.bt5://文件带进度下载
+            case R.id.bt5://文件带进度下载 在model层
                 mPresenter.fileDownLoad();
                 break;
-            case R.id.bt6://无网络取缓存，测试时将网络关闭
+            case R.id.bt6://无网络取缓存，测试时将网络关闭 在model层
                 mPresenter.simpleGetCache();
                 break;
             case R.id.bt7://获取区域信息
@@ -295,7 +292,7 @@ public class MainAct extends BaseAct<MainView, MainPresenter> implements MainVie
      * 无网络取缓存回调
      */
     @Override
-    public void noNetworkCacheCallback(String str) {
+    public void noNetworkCacheCallback(JsonArray str) {
         tv.setText(String.valueOf("无网络缓存数据: " + str));
     }
 

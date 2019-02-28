@@ -2,6 +2,7 @@ package com.john.johndevframe.moduel.main.model;
 
 import android.app.Activity;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.john.johndevframe.base.BaseAct;
 
@@ -45,7 +46,7 @@ public interface MainModel {
 
         void downLoadFileCompleted();
 
-        void simpleCacheDataCompleted(String data);
+        void simpleCacheDataCompleted(JsonArray data);
 
     }
 

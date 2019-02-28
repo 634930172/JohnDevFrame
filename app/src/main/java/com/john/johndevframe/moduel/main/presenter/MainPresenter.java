@@ -1,5 +1,6 @@
 package com.john.johndevframe.moduel.main.presenter;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.john.johndevframe.base.BaseAct;
 import com.john.johndevframe.base.BasePresenter;
@@ -99,7 +100,7 @@ public class MainPresenter extends BasePresenter<MainView> implements MainModel.
     }
 
     @Override
-    public void simpleCacheDataCompleted(String data) {
+    public void simpleCacheDataCompleted(JsonArray data) {
         getView().noNetworkCacheCallback(data);
     }
 
