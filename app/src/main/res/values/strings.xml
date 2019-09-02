@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">JohnDevFrame</string>
+    <string name="get_success">get返回数据:%1$s</string>
+    <string name="post_success">post返回数据:%1$s</string>
+    <string name="pic_post_success">单图上传返回数据:%1$s</string>
+    <string name="pics_post_success">多图图上传返回数据:%1$s</string>
+    <string name="cache_get_success">取缓存返回数据:%1$s</string>
+    <string name="download_success">下载成功</string>
+    <string name="addarea_success">增加区域信息成功</string>
+    <string name="updatearea_success">更新区域信息成功</string>
+    <string name="deleteearea_success">删除区域信息成功</string>
+
 </resources>

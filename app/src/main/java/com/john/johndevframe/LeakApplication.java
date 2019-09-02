@@ -2,6 +2,8 @@ package com.john.johndevframe;
 
 import android.app.Application;
 
+import com.john.johndevframe.utils.AssetUtils;
+import com.john.johndevframe.utils.ContextUtil;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
 
@@ -20,6 +22,12 @@ public class LeakApplication extends Application {
     public void onCreate() {
         super.onCreate();
         mRefWatcher = setupLeakCanary();
+        ContextUtil.init(this);
+        //插入测试的图片
+        AssetUtils.saveFileFromAsset("java从入门到放弃.png");
+        AssetUtils.saveFileFromAsset("仙道1.jpeg");
+        AssetUtils.saveFileFromAsset("仙道2.png");
+        AssetUtils.saveFileFromAsset("仙道3.jpg");
         //改变了22222222223333333333333344444444445555555
     }
 

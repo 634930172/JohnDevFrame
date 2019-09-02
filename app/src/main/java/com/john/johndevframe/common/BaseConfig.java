@@ -8,11 +8,15 @@ package com.john.johndevframe.common;
  */
 
 public class BaseConfig {
-    /**
-     * BaseUrl
-     */
-    public static final String BASE_URL = "https://www.mrallen.cn/api/";
+//    /**
+//     * BaseUrl
+//     */
+//    public static final String BASE_URL = "http://www.johndevelop.cn/demo/";
 
+    /**
+     * BaseUrl ip
+     */
+    public static final String BASE_URL = "http://94.191.50.122/demo/";
 
 
 }

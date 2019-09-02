@@ -1,14 +1,7 @@
 package com.john.johndevframe.moduel.main.model;
-
-import android.app.Activity;
-
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.john.johndevframe.base.BaseAct;
 
-import java.util.Map;
-
-import okhttp3.RequestBody;
 
 /**
  * Author: John
@@ -19,10 +12,6 @@ import okhttp3.RequestBody;
 
 public interface MainModel {
 
-    void getSimpleData(LoadingCallBack callBack);
-
-    void getPostData(LoadingCallBack callBack);
-
     void fileUpload(LoadingCallBack callBack);
 
     void fileUploads(LoadingCallBack callBack);
@@ -31,14 +20,22 @@ public interface MainModel {
 
     void getSimpleCacheData(LoadingCallBack callBack);
 
+    void getListArea(LoadingCallBack callBack);
+
+    void getAreaById(int areaId,LoadingCallBack callBack);
+
+    void addArea(String areaName,int priority,LoadingCallBack callBack);
+
+    void modifyArea(String areaName,int priority,int areaId,LoadingCallBack callBack);
+
+    void removeAreaById(int areaId,LoadingCallBack callBack);
+
+    void queryPageArea(int page,int size,LoadingCallBack callBack);
+
     /**
      * M层回调的接口
      */
     interface LoadingCallBack{
-
-        void simpleDataCompleted(String data);
-
-        void simplePostCompleted(JsonObject jsonObject);
 
         void fileUploadCompleted(JsonObject jsonObject);
 
@@ -48,6 +45,17 @@ public interface MainModel {
 
         void simpleCacheDataCompleted(JsonArray data);
 
+        void getListAreaCompleted(JsonArray data);
+
+        void getAreaByIdCompleted(JsonObject jsonObject);
+
+        void addAreaCompleted(String msg);
+
+        void modifyAreaCompleted(String msg);
+
+        void removeAreaByIdCompleted(String msg);
+
+        void queryPageAreaCompleted(JsonArray jsonArray);
     }
 
 

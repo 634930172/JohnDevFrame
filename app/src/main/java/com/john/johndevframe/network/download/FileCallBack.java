@@ -52,11 +52,13 @@ public abstract class FileCallBack<T> {
                 dir.mkdirs();
             }
             File file = new File(dir, destFileName);
+            Log.d(TAG, "saveFile: path is "+file.getAbsolutePath());
             fos = new FileOutputStream(file);
             while ((len = is.read(buf)) != -1) {
                 fos.write(buf, 0, len);
             }
             fos.flush();
+            Log.d(TAG, "saveFile: file len is "+file.length()/1024+" kb");
             //onCompleted();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -68,6 +70,7 @@ public abstract class FileCallBack<T> {
                     is.close();
                 if (fos != null)
                     fos.close();
+
             } catch (IOException e) {
                 Log.e("saveFile", e.getMessage());
             }

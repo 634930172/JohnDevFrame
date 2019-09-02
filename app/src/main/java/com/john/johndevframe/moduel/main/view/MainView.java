@@ -40,4 +40,37 @@ public interface MainView {
      * 无网络取缓存回调
      */
     void noNetworkCacheCallback(JsonArray str);
+
+    //-----------------------------
+
+    /**
+     * 获取区域信息回调
+     */
+    void getListAreaCallback(JsonArray areas);
+
+    /**
+     * 根据Id查询区域信息
+     */
+    void getAreaByIdCallback(JsonObject jsonObject);
+
+    /**
+     * 增加区域信息
+     */
+    void addAreaCallback(String msg);
+
+    /**
+     * 修改区域信息
+     */
+    void modifyAreaCallback(String msg);
+
+    /**
+     * 根据Id删除区域信息
+     */
+    void removeAreaByIdCallback(String msg);
+
+    /**
+     * 获取Area分页信息
+     */
+    void queryPageAreaCallback(JsonArray jsonArray);
+
 }

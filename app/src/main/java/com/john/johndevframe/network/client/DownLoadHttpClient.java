@@ -26,7 +26,7 @@ public class DownLoadHttpClient {
 
     private Retrofit retrofit;
 
-    private static final int DEFAULT_TIMEOUT = 5;
+    private static final int DEFAULT_TIMEOUT = 60*2;//下载超时时间为120S
 
     //构造方法私有
     private DownLoadHttpClient() {
