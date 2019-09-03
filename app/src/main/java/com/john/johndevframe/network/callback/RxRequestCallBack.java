@@ -30,6 +30,7 @@ public abstract class RxRequestCallBack<T> extends DisposableObserver<HttpResult
 
     private LoadingDialog dialog;
     private static final String TAG="RxRequestCallBack";
+    private long mStartCurrentLong;
     /**
      * 网络请求成功的回调方法，必须重写
      */
@@ -45,6 +46,7 @@ public abstract class RxRequestCallBack<T> extends DisposableObserver<HttpResult
     @Override
     public void onStart() {
         super.onStart();
+        mStartCurrentLong=System.currentTimeMillis();
         if (dialog != null) {
             dialog.show();
             LogUtil.e("dialogShow");
@@ -100,7 +102,8 @@ public abstract class RxRequestCallBack<T> extends DisposableObserver<HttpResult
             Log.e(TAG,"onNext:  onFailed");
         } else {
             onSuccess(tHttpResult);
-            Log.e(TAG,"onNext:  onSuccess");
+            long callBackTime=System.currentTimeMillis()-mStartCurrentLong;
+            Log.e(TAG,"onNext:  onSuccess , callback time： "+callBackTime+" ms");
         }
     }
 
