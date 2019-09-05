@@ -35,7 +35,7 @@ import okhttp3.ResponseBody;
 
 
 /**
- * Author: John--test分支的东西
+ * Author: John
  * E-mail：634930172@qq.com
  * Date: 2018/3/2 9:54
  * Description:M层实现类 在这里写业务逻辑，将结果回调至P层
