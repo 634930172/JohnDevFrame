@@ -18,6 +18,7 @@ import com.john.johndevframe.network.entity.HttpResult;
 import com.john.johndevframe.network.networkutils.UploadUtil;
 import com.john.johndevframe.utils.AssetUtils;
 import com.john.johndevframe.utils.ContextUtil;
+import com.john.johndevframe.utils.FileSizeUtil;
 import com.john.johndevframe.utils.LogUtil;
 import com.trello.rxlifecycle2.android.ActivityEvent;
 
@@ -109,7 +110,7 @@ public class MainModelImp extends BaseModule implements MainModel {
 
             @Override
             public void progress(long progress) {
-                LogUtil.e("progress: " + progress / 1024 + "kb  total: " + FileLoadEvent.getInstance().getTotal() / 1024 + "kb");
+                LogUtil.e("progress: " + FileSizeUtil.FormatFileSize(progress) + "  total: " +FileSizeUtil.FormatFileSize(FileLoadEvent.getInstance().getTotal()));
             }
 
             @Override
