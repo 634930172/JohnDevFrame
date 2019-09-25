@@ -2,6 +2,8 @@ package com.john.johndevframe.network.download;
 
 import android.util.Log;
 
+import com.john.johndevframe.utils.FileSizeUtil;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -58,7 +60,7 @@ public abstract class FileCallBack<T> {
                 fos.write(buf, 0, len);
             }
             fos.flush();
-            Log.d(TAG, "saveFile: file len is "+file.length()/1024+" kb");
+            Log.d(TAG, "saveFile: file len is "+ FileSizeUtil.FormatFileSize(file.length()));
             //onCompleted();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
