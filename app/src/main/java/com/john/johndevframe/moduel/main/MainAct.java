@@ -95,16 +95,16 @@ public class MainAct extends BaseAct<MainView, MainPresenter> implements MainVie
                 mPresenter.getListAreaById(getInt(areaId));
                 break;
             case R.id.bt9://增加区域信息
-                mPresenter.addArea(getString(areaName),getInt(priority));
+                mPresenter.addArea(getString(areaName), getInt(priority));
                 break;
             case R.id.bt10://修改区域信息
-                mPresenter.modifyArea(getString(areaName),getInt(priority),getInt(areaId));
+                mPresenter.modifyArea(getString(areaName), getInt(priority), getInt(areaId));
                 break;
             case R.id.bt11://根据ID删除区域信息
                 mPresenter.removeAreaById(getInt(areaId));
                 break;
             case R.id.bt12://分页展示
-                mPresenter.queryPageArea(getInt(areaPage),getInt(size));
+                mPresenter.queryPageArea(getInt(areaPage), getInt(size));
                 break;
         }
     }
@@ -116,7 +116,7 @@ public class MainAct extends BaseAct<MainView, MainPresenter> implements MainVie
      */
     @Override
     public void simpleGetCallback(String str) {
-        tv.setText(getString(R.string.get_success,str));
+        tv.setText(getString(R.string.get_success, str));
     }
 
 
@@ -125,7 +125,7 @@ public class MainAct extends BaseAct<MainView, MainPresenter> implements MainVie
      */
     @Override
     public void simplePostCallback(JsonObject jsonObject) {
-        tv.setText(getString(R.string.post_success,jsonObject));
+        tv.setText(getString(R.string.post_success, jsonObject));
     }
 
 
@@ -134,7 +134,7 @@ public class MainAct extends BaseAct<MainView, MainPresenter> implements MainVie
      */
     @Override
     public void fileUploadCallback(JsonObject jsonObject) {
-        tv.setText(getString(R.string.pic_post_success,jsonObject));
+        tv.setText(getString(R.string.pic_post_success, jsonObject));
     }
 
 
@@ -143,7 +143,7 @@ public class MainAct extends BaseAct<MainView, MainPresenter> implements MainVie
      */
     @Override
     public void fileUploadsCallback(JsonObject jsonObject) {
-        tv.setText(getString(R.string.pics_post_success,jsonObject));
+        tv.setText(getString(R.string.pics_post_success, jsonObject));
     }
 
 
@@ -160,7 +160,7 @@ public class MainAct extends BaseAct<MainView, MainPresenter> implements MainVie
      */
     @Override
     public void noNetworkCacheCallback(JsonArray str) {
-        tv.setText(getString(R.string.cache_get_success,str));
+        tv.setText(getString(R.string.cache_get_success, str));
     }
 
     /**

@@ -23,7 +23,7 @@ public class FileLoadEvent {
     private long total;
     private long bytesLoaded;
 
-    long getBytesLoaded() {
+    public long getBytesLoaded() {
         return bytesLoaded;
     }
 

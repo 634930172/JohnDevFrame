@@ -26,7 +26,7 @@ import io.reactivex.observers.DisposableObserver;
  * Description:
  */
 
-public abstract class RxRequestCallBack<T> extends DisposableObserver<HttpResult<T>> implements DialogInterface.OnCancelListener {
+public abstract class CallbackObserver<T> extends DisposableObserver<HttpResult<T>> implements DialogInterface.OnCancelListener {
 
     private LoadingDialog dialog;
     private static final String TAG="RxRequestCallBack";
@@ -39,7 +39,7 @@ public abstract class RxRequestCallBack<T> extends DisposableObserver<HttpResult
     /**
      * 默认访问请求
      */
-    protected RxRequestCallBack() {
+    protected CallbackObserver() {
 
     }
 
@@ -56,7 +56,7 @@ public abstract class RxRequestCallBack<T> extends DisposableObserver<HttpResult
     /**
      * 请求有进度框
      */
-    protected RxRequestCallBack(Context context) {
+    protected CallbackObserver(Context context) {
         super();
         dialog = new LoadingDialog(context);
         dialog.setOnCancelListener(this);
@@ -65,7 +65,7 @@ public abstract class RxRequestCallBack<T> extends DisposableObserver<HttpResult
     /**
      * 请求有进度框
      */
-    public RxRequestCallBack(Context context, String loadingMsg) {
+    public CallbackObserver(Context context, String loadingMsg) {
         super();
         dialog = new LoadingDialog(context, loadingMsg);
         dialog.setOnCancelListener(this);

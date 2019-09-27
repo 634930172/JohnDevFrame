@@ -3,11 +3,13 @@ package com.john.johndevframe.network.download;
 import android.util.Log;
 import java.util.HashMap;
 import io.reactivex.Flowable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.processors.FlowableProcessor;
 import io.reactivex.processors.PublishProcessor;
+import io.reactivex.schedulers.Schedulers;
 
 
 /**
@@ -70,8 +72,8 @@ public class RxBus {
     public <T> Disposable subscribe(Class<T> type, Consumer<T> next,Consumer<Throwable> err) {
         return toFlowable(type)
                 .onBackpressureBuffer()
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(next, err);
     }
 

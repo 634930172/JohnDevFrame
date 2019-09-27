@@ -1,8 +1,5 @@
 package com.john.johndevframe.network.client;
 
-import android.util.Log;
-
-
 import com.john.johndevframe.common.BaseConfig;
 import com.john.johndevframe.network.converter.HttpCovertFactory;
 import com.john.johndevframe.network.download.ProgressInterceptor;
@@ -22,39 +19,35 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
  * Description:带进度的下载类
  */
 
-public class DownLoadHttpClient {
+public class DownLoadClient {
 
     private Retrofit retrofit;
-
-    private static final int DEFAULT_TIMEOUT = 60*2;//下载超时时间为120S
+    private static final int DEFAULT_TIMEOUT = 60 * 5;//下载超时时间为5分钟
 
     //构造方法私有
-    private DownLoadHttpClient() {
+    private DownLoadClient() {
         // 创建一个OkHttpClient
-        OkHttpClient.Builder builder = new OkHttpClient.Builder();
+        OkHttpClient.Builder okHttpBuilder = new OkHttpClient.Builder();
         // 设置网络请求超时时间
-        builder.readTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS);
-        builder.writeTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS);
-        builder.connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS);
+        okHttpBuilder.readTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS);
+        okHttpBuilder.writeTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS);
+        okHttpBuilder.connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS);
+        //实现进度回调的拦截器
+//        okHttpBuilder.addInterceptor(new ProgressInterceptor());
         // 失败后尝试重新请求
-        builder.retryOnConnectionFailure(true);
-        //----------------------------基本设置------------------------------------------------------
-        builder.addInterceptor(new ProgressInterceptor());//设置有下载进度的拦截器 后面定制改动
-
-
+        okHttpBuilder.retryOnConnectionFailure(true);
         retrofit = new Retrofit.Builder()
-                .client(builder.build())
+                .client(okHttpBuilder.build())
                 .addConverterFactory(HttpCovertFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .baseUrl(BaseConfig.BASE_URL)
                 .build();
-        Log.e("TAG", "DownLoadHttpClient: >>>>>>>>>>>>>>>>>>>>>>>>");
     }
 
     /**
      * 调用单例对象
      */
-    private static DownLoadHttpClient getInstance() {
+    private static DownLoadClient getInstance() {
         return SingletonHolder.INSTANCE;
     }
 
@@ -62,14 +55,17 @@ public class DownLoadHttpClient {
      * 创建单例对象
      */
     private static class SingletonHolder {
-        static DownLoadHttpClient INSTANCE = new DownLoadHttpClient();
+        static DownLoadClient INSTANCE = new DownLoadClient();
     }
+
 
     /**
      * @return 指定service实例
      */
     public static <T> T getService(Class<T> clazz) {
-        return DownLoadHttpClient.getInstance().retrofit.create(clazz);
+        return DownLoadClient.getInstance().retrofit.create(clazz);
     }
+
+
 
 }

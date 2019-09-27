@@ -1,8 +1,5 @@
 package com.john.johndevframe.network.download;
 
-import android.util.Log;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
 import io.reactivex.observers.DisposableObserver;
 
 
@@ -55,27 +52,27 @@ public class FileSubscriber<T> extends DisposableObserver<T> {
      * 订阅加载的进度条
      */
     private void subscribeLoadProgress() {
-        Disposable disposable = RxBus.getInstance().subscribe(FileLoadEvent.class, new Consumer<FileLoadEvent>() {
-            @Override
-            public void accept(FileLoadEvent fileLoadEvent) {
-                Log.e(TAG, "accept:---- " + fileLoadEvent.getBytesLoaded() + " --total-- " + fileLoadEvent.getTotal());
-                fileCallBack.progress(fileLoadEvent.getBytesLoaded());
-            }
-        }, new Consumer<Throwable>() {
-            @Override
-            public void accept(Throwable throwable) {
-                Log.e(TAG, "accept: error---");
-
-            }
-        });
-        RxBus.getInstance().addCompositeDisposable(this, disposable);
+//        Disposable disposable = RxBus.getInstance().subscribe(FileLoadEvent.class, new Consumer<FileLoadEvent>() {
+//            @Override
+//            public void accept(FileLoadEvent fileLoadEvent) {
+//                Log.e(TAG, "accept:---- " + fileLoadEvent.getBytesLoaded() + " --total-- " + fileLoadEvent.getTotal());
+//                fileCallBack.progress(fileLoadEvent.getBytesLoaded());
+//            }
+//        }, new Consumer<Throwable>() {
+//            @Override
+//            public void accept(Throwable throwable) {
+//                Log.e(TAG, "accept: error---");
+//
+//            }
+//        });
+//        RxBus.getInstance().addCompositeDisposable(this, disposable);
     }
 
     /**
      * 取消订阅，防止内存泄漏
      */
     private void unsubscribe() {
-        RxBus.getInstance().unSubscribe(this);
+//        RxBus.getInstance().unSubscribe(this);
     }
 
 

@@ -62,7 +62,6 @@ public class ProgressResponseBody extends ResponseBody {
                 bytesReaded += bytesRead == -1 ? 0 : bytesRead;
                 //实时发送当前已读取的字节和总字节
                 RxBus.getInstance().post(FileLoadEvent.getInstance().setProgress(bytesReaded));
-                Log.e("ProgressResponseBody", "read:---- "+FileLoadEvent.getInstance().getBytesLoaded() );
                 return bytesRead;
             }
         };
